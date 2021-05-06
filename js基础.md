@@ -1,0 +1,979 @@
+## 一.JS概述
+
+### 1)历史
+
+```
+1995年,JS最早出现在Netscape的浏览器中
+1996年,IE3出现了JS克隆版,称为JScript
+1997年,ECMA组织制定了JS的标准规范ECMAScript
+2009年,JS遵循CommonJs规范,开始向服务器端发展
+```
+
+### 2)现状
+
+```
+既可以运行在浏览器,也可以运行在服务器端
+```
+
+### 3)特点
+
+```
+解释型语言,编译一行执行一行
+弱类型语言
+基于对象
+跨平台
+```
+
+### 4)应用场景
+
+```
+前端的交互效果,服务器端的开发,例如web服务器的创建,数据库的操作
+```
+
+## 二.搭建开发环境
+
+### 1.浏览器端
+
+```
+自带JS解释器
+谷歌,火狐,safari,IE,欧朋
+```
+
+### 2.服务器端Node.js
+
+```
+官网 www.nodejs.org
+在命令行下 node -v 查看当前的版本号
+```
+
+### 3.运行js
+
+```
+浏览器
+创建01.html和01.js,把js文件嵌入到01.html中
+<script src="01.js"></script>
+
+Node.js
+在命令行下
+node 拖拽文件  回车
+```
+
+## 三.JS的语法规范
+
+```
+区分大小写
+每行结束的分号可以省略,建议加上
+注释分为单行注释(//...)和多行注释(/*...*/)
+```
+
+## 四.变量
+
+### 1.声明变量
+
+```
+变量:用于存储数据的容器
+1)声明变量
+使用关键字var来声明
+var a = 1;
+
+2)变量的命名规则
+变量名称可以由字母,数字,下划线,美元符号组成,不能以数字开头,不能使用关键字或者保留字.
+建议使用驼峰命名法(userName)
+
+3)变量的赋值
+变量声明后可以不赋值,此时的值是undefined(未定义);也可以都次赋值,并且赋值不同类型的值,这也是弱类型语言的特点
+
+练习:声明变量分别保存语文、数学和总成绩，其中总成绩暂时未赋值，然后把语文和数学相加的和赋给总成绩，最后打印3个变量。
+var chinese = 99;
+var math = 98;
+var sum;
+sum = chinese + math;
+console.log(chinese,math,sum);
+
+4)一次声明多个变量
+var a = 1,b = 2,c;
+多个变量之间用逗号隔开
+练习：声明多个变量分别保存多组商品的单价和数量，最后计算出总价并打印出来。
+var price = 100;
+var count = 9;
+console.log(price * count);
+```
+
+## 五.常量
+
+```
+用于存储固定不变的数据
+const pi = 3.14;
+常量声明的同时必须赋值,一旦声明后不允许重新赋值
+
+练习: 声明变量保存圆的半径，常量保存圆周率，把面积和周长计算分别保存到变量中，最后打印结果。
+var r = 5;
+const pi = 3.14;
+var area = pi * pi * r;
+var len = 2 * pi * r;
+console.log("圆的面积为:" + area);
+console.log("圆的周长为:" + len);
+
+练习:交换两个变量的值 a=1   b=2
+var a = 1,b = 2;
+var temp;
+temp = a;
+a = b;
+b = temp;
+console.log("交换后a,b的值为:",a,b);
+```
+
+## 六.数据类型
+
+```
+分为原始类型和引用类型
+原始类型分为数值型,字符串型,布尔型,未定义型,空,typeof 检测数据的类型
+
+1)数值型
+分为整型和浮点型
+
+2)字符串型
+被引号所包含的数据
+查看任意一个字符的Unicode码: 'a'.charCodeAt()
+
+3)布尔型
+只有两个值,true和false,代表真或者假
+比较运算的结果也会得到布尔型的值
+
+4)未定义型
+只有一个值undefined,声明变量未赋值的结果就为undefined
+
+5)空
+只有一个值null,常和引用类型的数据一起使用
+```
+
+## 七.数据类型转换
+
+```
+1.隐式转换
+在运算过程中,自动发生的转换
+隐式转换为数值的时候会自动调用Number
+ 1)数值+字符串 --> 数值转为字符串
+ 2+"3" => "23"
+ 2)数值+布尔型 --> 布尔型转为数值 true -> 1 false -> 0
+ 2+true => 3
+ 3)字符串+布尔型 --> 布尔型转为字符串
+ "2"+true => "2true"
+ 
+ 练习：查看以下程序运行结果
+  var a=1,b=true,c='2';
+  console.log(a+b+c);//'22'
+  console.log(b+c+a);//'true21'
+  console.log(c+a+b);//'21true'
+  
+  NaN: not a Number 不是一个数字
+  将数据转数值的时候,没有成功的转为数值的将返回NaN.NaN和任何值执行运算,结果还是NaN.
+  
+  2.强制转换
+   1)强制转为数值型Number()
+    Number("2"); //2
+    Number("2a"); //NaN
+    Number(true); //1
+    Number(undefined); //NaN
+    Number(null); //0
+   2)强制转为整型
+    parseInt(3.14); //3
+    parseInt("6.7a"); //6
+    parseInt("a6.7"); //NaN
+   3)强制转为浮点型
+    parseFloat("3.14a"); //3.14
+    parseFloat("a3.14"); //NaN
+    parseFloat("3a"); //3
+   4)数值和布尔型强制转为字符串(了解)
+    var n = 10;
+    var str = n.toString(2); //转为字符串的同时还可以设置进制
+```
+
+## 八.运算符
+
+```
+运算符分为算术运算符,比较运算符,逻辑运算符,位运算符(了解),赋值运算符,三目运算符
+1)算术运算符
++   -   *   /   %   ++   --
+
+2)比较运算符
+>   <   >=   <=   ==(等于)   ===(全等于)   !=   !==
+== 等于,只比较值是否相同,可能会发生数据类型的转换
+=== 全等于,比较值和类型是否都相同,先比较类型,如果类型相同再去比较值
+
+运算符两端数据类型中只有一个数字,则另一个隐式转换为数值型
+如果两个字符比较,比较的是Unicode码
+NaN和任何值比较(包括NaN本身)(>  >=  <  <=  ==  ===) 结果都是false
+
+3)逻辑运算符
+&& 逻辑与(并且),关联的两个条件都是true结果才是true,否则为false
+|| 逻辑或(或者),关联的两个条件有一个为true,结果是true,否则为false
+! 逻辑非(取反)
+短路逻辑
+&& 当第一个条件为false的时候,不再执行第二个条件
+|| 当一个条件为true的时候,不再执行第二个条件
+短路逻辑关注点不再是整体为true还是false,而是第二个条件是否执行
+
+4)位运算符(了解)
+模拟计算机底层的运算过程,先转为二进制再进行运算,然后把运算结果再转回十进制
+& 按位与,上下两位都是1,结果是1,否则是0
+| 按位或,上下两位含有1,结果是1,否则是0
+
+5)赋值运算符
+=   +=   -=   *=   /=   %=   ...
+限制性运算符,再执行赋值
+  练习：声明变量保存商品的价格，给该商品打八折后，打印价格
+  var price = 1000;
+  price *= 0.8;
+  console.log(price); //800
+
+6)三目运算符
+条件表达式 ? 表达式1 : 表达式2
+如果条件表达式为true,执行表达式1
+如果条件表达式为false,执行表达式2
+```
+
+## 九.浏览器端的函数
+
+```
+alert() 弹出警示框
+prompt() 弹出提示框(输入框),需要使用变量保存用户输入的值,类型是字符串型,如果什么也不输入则返回空字符(""),如果点击取消返回null
+```
+
+## 十.流程控制
+
+### 选择执行
+
+```
+1)if(条件表达式){
+	语句块
+  }
+  如果if后的大括号中的语句块只有一行代码,则可以省略大括号.
+  (0 NaN "" undefined null)作为条件表达式出现时,隐式转换为false.
+  练习：声明变量保存签名内容，如果签名内容为空字符，则设置为默认'这家伙很懒，什么也没留下'，打印签名内容。
+  var str = "";
+  if(!str){
+      str = "这家伙很懒，什么也没留下";
+  }
+  console.log(str);
+2)if-else语句
+  if(条件表达式){
+  	语句块1
+  }else{
+  	语句块2
+  }
+3)if-else嵌套
+  if(条件表达式1){
+  	语句块1
+  }else if(条件表达式n){
+  	语句块n
+  }else{
+  	语句块n+1 //以上所有条件都是false才会执行此语句块
+  }
+4) switch-case语句
+属于一种特殊的多分枝语句,通常根据一个表达式的值选择执行对应的语句
+switch(表达式){
+	case 值1: //表达式会和值1比较
+		语句块1;
+		break;
+	case 值n:
+		语句块n;
+		break;
+	default:
+		语句块n+1; //表达式和每个值比较都是false的时候才会执行此语句块
+}
+注意: 表达式在和case后的值比较的时候,使用的是全等于(比较值和类型)
+
+5)对比if-else和switch-case:
+两者都可以用于多项分支语句
+switch-case结构上更为清晰合理,只能进行全等于比较;if-else可以使用各种比较,适用范围更加广泛
+
+```
+
+```
+练习:弹出两次提示框分别输入商品的单价和数量，计算出总价，假设总价满1000元打九折，当前会员卡内有余额1200，如果足以支付，警示框弹出'pay success'，否则警示框弹出'pay error'
+01.js
+var price = parseFloat(prompt("Please input the price:"));
+var count = parseInt(prompt("Please input the count:"));
+var sum = price * count;
+if(sum >= 1000){
+    sum *= 0.9;
+}
+if(sum <= 1200){
+    alert("pay success");
+}else{
+    alert("pay error");
+}
+01.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./01.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+### 循环执行
+
+```
+循环: 重复执行相同或相似的代码
+循环的两个要素:
+	循环条件:控制循环的次数
+	循环体: 执行相同或者相似的代码
+```
+
+#### 1.while循环
+
+```
+whlie(循环条件){
+	循环体
+}
+	
+break 在循环体中执行,强制结束循环
+continue: 跳过本次循环,继续下一次循环
+循环结束的两种方式:1.当循环条件为false的时候结束; 2.当循环体中执行break的时候结束
+```
+
+#### 2.do-while
+
+```
+do {
+	循环体
+}while(循环条件);
+	
+练习：声明变量保存密码'123456'，在死循环的循环体中弹出提示框，要求输入密码，如果输入的密码正确，就结束循环。
+	do{
+    	var str = prompt("Please input your password:");
+	}while(str != "123456");
+```
+
+#### 3.for循环
+
+```
+for(初始值;循环条件;增量){
+	循环体
+}
+```
+
+#### 4.循环嵌套
+
+```
+循环嵌套:在一个循环体中嵌套了另一个循环,任意循环之间都可以相互嵌套
+```
+
+```
+练习:
+1.打印1~100之所有的整数，排除所有能被6或者7整除的数字
+for(var i = 1;i <=100;i++){
+    if(i % 6 === 0 || i % 7 === 0){
+        continue;
+    }
+    console.log(i);
+}
+
+2.打印2000~2100年之间前10个闰年
+var count = 0;
+for(var i = 2000;i <= 2100;i++){
+    if(i % 4 === 0 && i % 100 !== 0 || i % 400 === 0){
+        console.log(i);
+        count++;
+    }
+    if(count === 10){
+        break;
+    }
+}
+3.打印直角三角形
+  *
+  **
+  ***
+  ****
+  *****
+  for (var i = 0; i < 5; i++) {
+    var str = "";
+    for(var j = 0;j <= i;j++){
+        str += "*";
+    }
+    console.log(str);
+}
+```
+
+## 十一.函数
+
+```
+1.函数
+分为系统函数和自定义函数
+函数: 是一个功能体,需要提供若干个数据,返回处理的结果;用于封装重复执行的代码
+```
+
+### 1.创建普通函数
+
+```
+function 函数名称(){
+	函数体 //封装重复执行的代码
+}
+调用: 函数名称();
+练习:创建函数，在函数体中封装计算1~100之间所有整数的和并打印，调用多次
+function getSum(){
+    var sum = 0;
+    for(var i = 1;i <= 100;i++){
+        sum += i;
+    }
+    console.log(sum);
+}
+//调用多次
+getSum();
+getSum();
+getSum();
+```
+
+### 2.创建带有参数的函数
+
+```
+function 函数名称(参数列表){
+	函数体
+}
+调用: 函数名称(参数列表)
+形参: 创建函数时的参数成为形参,调用函数时的参数称为实参
+
+ 练习：创建函数，封装计算1~任意数字之间所有整数的和，打印出来，调用多次
+function getSum(n){
+    var sum = 0;
+    for(var i = 1;i <= n;i++){
+        sum += i;
+    }
+    console.log(sum);
+}
+// 调用
+getSum(100);
+getSum(50);
+getSum(20); 
+```
+
+### 3.创建带有返回值的函数
+
+```
+function 函数名称(参数列表){
+	函数体
+	return 值; //返回值,函数调用后得到的结果
+}
+
+调用
+函数名称(参数列表);
+
+1.return的作用是返回函数调用后的结果;
+2.如果函数中没有return或者return后没有任何值,则返回的结果为undefined;
+3.return 执行后,就会结束函数的执行
+
+1.练习：创建函数getMax1，传递任意两个数字，返回最大值。
+function getMax1(a, b) {
+    return a > b ? a : b;
+}
+// 调用
+var res1 = getMax1(1, 2);
+var res2 = getMax1(9, 6);
+console.log(res1,res2);
+
+2.练习：创建函数getMax2，传递任意三个数字，返回最大值。
+function getMax2(a, b, c) {
+    if (a > b && a > c) {
+        return a;
+    } else if (b > c) { //说明a不是三者中的最大值
+        return b;
+    } else {
+        return c;
+    }
+}
+
+// 调用
+var res1 = getMax2(1, 2, 3);
+var res2 = getMax2(1, 9, 2);
+var res3 = getMax2(36, 6, 1);
+console.log(res1, res2, res3);
+ 
+3.练习：创建函数isRun，传递任意一个年份，如果是闰年返回true，否则返回false
+function isRun(year) {
+    if (year % 4 === 0 && year % 100 !== 0 || year % 400 === 0) {
+        return true;
+    }
+    return false;
+}
+
+var res1 = isRun(2020);
+var res2 = isRun(2021);
+console.log(res1,res2);
+```
+
+#### return和break的区别
+
+```
+break用于循环和switch-case,作用是结束循环或者结束switch-case语句的执行
+return用于函数中,结束函数的执行
+```
+
+### 4.作用域
+
+#### 1)变量作用域
+
+```
+作用域: 起作用的范围
+
+全局作用域: 在函数外,使用var声明的变量,可以在任何的作用域下访问到,称为全局变量
+
+函数作用域: 在函数内,使用var声明的变量,只能在当前的作用域下访问到,称为局部变量
+
+注意:在函数内,不加var声明的变量,自动是全局变量,但是不推荐,在严格模式下会报错
+
+变量的提升
+JS程序执行前,会将var声明的变量提升到所在作用域的最前边,赋值不提升.
+```
+
+#### 2)函数作用域
+
+```
+函数的可访问范围
+
+全局函数: 在全局作用域下创建的函数,可以在任何的作用域下调用
+
+局部函数: 在函数作用域下创建的函数,只能在当前作用域下调用
+
+函数提升:JS程序执行前,会将function关键字创建的函数提升导所在作用域的最前边,会整体提升
+```
+
+### 5.递归
+
+```
+在函数内调用自身,本身是一个死循环,因此要有结束条件(结合着return使用)
+练习:
+斐波那契数列
+ 1   1   2   3   5   8   13   21...
+ 第1项和第2项固定都是1，从第3项开始每项的值是前两项相加的和
+ 创建函数，传递参数(第n项)，返回该项的值(使用循环，变量交换)
+ function getFib(n){
+    if(n == 1 || n == 2){
+        return 1;
+    }
+    return getFib(n-1)+getFib(n-2);
+}
+//调用
+var res = getFib(8);
+console.log(res);//21
+```
+
+### 6.匿名函数
+
+```
+匿名函数: 没有名称的函数
+function(){}
+```
+
+#### 1)创建函数
+
+```
+1.函数声明的方式创建函数
+function fn(){}
+调用: fn()
+2.函数表达式的方式创建函数
+var fn = function(){}
+变量名称就是函数名称
+调用 fn();
+
+3.函数名称和函数名称()的区别
+	函数名称,就是一个变量,变量中保存了一个函数
+	函数名称(),表示函数的调用,例如fn()
+4.函数表达式和函数声明创建函数的区别
+	函数声明创建的函数,会整体提升,可以先调用再创建
+	函数表达式创建的函数,只存在变量的提升,赋值不提升,因此必须先创建再调用
+```
+
+```
+练习:使用函数表达式创建函数，传递任意两个数字，返回两个数字之间所有整数的和
+var fn = function(a,b){
+    var sum = 0;
+    for(var i = a ;i <= b;i++){
+        sum += i;
+    }
+    return sum;
+};
+// 调用
+var res = fn(1,100);
+console.log(res);
+```
+
+#### 2)匿名函数自调用
+
+```
+全局污染:全局变量的出现造成的
+解决: 尽量避免使用全局变量,转为局部变量
+
+(function(){
+	//函数作用域
+	//放置每块功能的代码
+})();
+```
+
+#### 3)回调函数
+
+```
+将函数名称或者匿名函数以实参的形式传递
+function run(first,second){
+	console.log("接力赛开始");
+	first();
+	second();
+	console.log("接力赛结束");
+}
+
+function first(){
+	console.log("第一棒开始...");
+	console.log("第一棒结束...");
+}
+function second(){
+	console.log("第二棒开始...");
+	console.log("第二棒结束...");
+}
+//调用
+run(first,second);
+```
+
+### 7.全局函数
+
+```
+Number() / parseInt() / parseFloat()
+isNaN() 检测一个值是否为NaN,先隐式转换为数值,然后检测
+isFinite() 检测一个值是否为有限值,是-->true,不是-->false
+eval() 执行字符串中的表达式
+```
+
+## 十二.对象
+
+```
+对象属于引用类型的数据
+对象是一组属性和方法的集合
+```
+
+### 1.JS中的对象
+
+```
+自定义对象,用户创建的对象
+内置对象,JS提供的对象
+宿主对象,根据不同的执行环境划分
+```
+
+### 2.创建自定义对象
+
+```
+对象字面量
+内置构造函数
+自定义构造函数
+```
+
+#### 1)使用对象字面量创建对象
+
+```
+使用{}创建空对象,每个属性包含有属性名和属性值,之间用冒号隔开,多组属性之间用逗号隔开
+{属性名1:属性值1,属性名2:属性值2}
+
+练习:创建一个汽车对象，包含有汽车的品牌，颜色，长度，宽度，产地
+var car = {
+    brand:"上海大众",
+    color: "white",
+    len: "4m",
+    width:"1.6m",
+    made: "china"
+};
+console.log(car);
+```
+
+##### (1)访问对象中的属性
+
+```
+对象.属性名
+对象['属性名']
+如果属性名不存在,则返回undefined
+```
+
+##### 遍历属性
+
+```
+循环访问对象中的每一个属性
+for(var k in 对象){
+	k: 每一个属性名
+	对象[k] 每一个属性名对应的属性值
+}
+练习:创建一个学生对象，包含的属性有多个成绩，遍历对象属性计算出总成绩和平均成绩
+var stu = {
+    math: 99,
+    chinese: 98,
+    english: 97
+};
+
+var sum = 0;//保存总成绩
+var count = 0;//计算有多少门成绩
+for(var k in stu){
+    count++;
+    sum += stu[k];
+}
+console.log("总成绩"+sum);
+console.log("平均成绩"+(sum / count));
+```
+
+
+
+#### 2)使用内置构造函数创建对象
+
+```
+new Object() 创建一个空对象
+```
+
+### 3.检测属性是否存在
+
+```
+1.对象.属性名 === undefined  true --> 不存在 false-->存在
+
+2.对象.hasOwnProperty("属性名") 存在-->true 不存在-->false
+
+3."属性名" in 对象  存在-->true  不存在-->false
+
+练习：声明变量保存一个商品的对象，包含有商品的编号，标题，价格；如果价格存在，将价格打八折；如果产地属性不存在，添加产地为中国。
+var pro = {
+    pid: "1001",
+    title:"火腿",
+    price: 2.5
+};
+
+if(pro.price){
+    pro.price *= 0.8;
+}
+
+if(!pro.hasOwnProperty("made")){
+    pro.made = "China";
+}
+
+console.log(pro);
+```
+
+### 4.对象中的方法
+
+```
+var person = {
+	name: "zero",
+	sayHi: function(){
+		console.log("Hello,I'm "+this.name);
+	}
+};
+
+调用 person.sayHi();
+
+练习：创建一个圆对象，包含的属性有半径和圆周率，添加计算面积和周长的两个方法，最后调用两个方法
+var circle = {
+    r: 5,
+    pi: 3.14,
+    getArea: function () {
+        return this.pi * this.r * this.r;
+    },
+    getLen: function () {
+        return 2 * this.pi * this.r;
+    }
+};
+
+var area = circle.getArea();
+var len = circle.getLen();
+console.log("圆的面积为"+area);
+console.log("圆的周长为"+len);
+```
+
+## 十三.数据的存储
+
+```
+原始类型: 直接将数据存储到了栈内存中
+
+引用类型(对象): 在堆内存中保存对象的数据,再生产一个地址(指针),把地址保存导栈内存的变量中
+
+注意:
+1.引用类型的数据所占的空间相对大,不需要的引用类型数据可以去手动销毁.
+2.如果引用类型的数据不被任何的地址所指向,则自动销毁.
+3.如果给一个对象的变量赋值为null,null表示一个空地址,不指向任何的引用类型数据.
+```
+
+## 十四.数组
+
+```
+数组是一组数据的集合,每个数据称为元素
+```
+
+### 1.使用字面量创建数组
+
+```
+var arr = [元素1,元素2,...];
+```
+
+### 2.内置构造函数创建数组
+
+```
+new Array(元素1,元素2,..)
+new Array(3) 创建数组,初始化长度为3,可以添加多个
+创建数组，初始化长度为5，添加篮球场上的5个位置。
+  中锋   大前锋   小前锋   得分后卫   控球后卫
+var pos = new Array(5);
+pos[0] = "中锋";
+pos[1] = "大前锋";
+pos[2] = "小前锋";
+pos[3] = "得分后卫";
+pos[4] = "控球后卫";
+console.log(pos);
+```
+
+### 3.数组元素的访问
+
+```
+数组[下标]
+下标是JS自动给每个元素添加的,从0开始的整数
+```
+
+### 4.数组的长度
+
+```
+数组.length 获取当前元素的个数
+可以王数组的末尾添加一个元素 数组[数组.length]=值
+  
+  练习：创建一个空数组，使用数组的长度添加若干个商品的名称
+var proName = [];
+proName[proName.length]="鸡蛋";  proName[proName.length]="西红柿";  proName[proName.length]="火腿";  proName[proName.length]="面包";
+console.log(proName);
+```
+
+### 5.数组的分类
+
+```
+索引数组: 以0及以上的整数作为下标
+关联数组: 以字符串作为下标,需要单独添加
+```
+
+### 6.数组元素的遍历
+
+```
+循环访问数组中的每个元素
+1.for-in
+for(var k in 数组){
+	k表示下标
+	数组[k] 代表元素
+}
+2.循环(推荐写法)
+for(var i = 0;i < 数组.length;i++){
+	i 代表下标
+	数组[i] 代表元素
+}
+
+练习：使用for循环遍历一组成绩，计算出平均成绩
+var scores = [99,98,97,96,95,94,93,92,91,90];
+var sum = 0;
+for(var i = 0;i < scores.length;i++){
+    sum += scores[i];
+}
+console.log("平均成绩为: "+(sum / scores.length));
+练习：声明变量保存一组姓名，要求将所有姓名为'zero'的元素，重新赋值为'bao'
+var names = ["zero","two","one","three","five","eight","zero","nine","six"];
+for(var i = 0;i < names.length;i++){
+    if(names[i] === "zero"){
+        names[i] = "bao";
+    }
+}
+console.log(names);
+```
+
+### 7.数组API
+
+```
+API: 应用程序编程接口,就是JS预定义好的一些方法或者函数
+
+toString() 将数组中元素转为字符串,默认按照逗号分隔
+
+join() 将数组中的元素按照指定的字符转为字符串
+
+concat(arr1,arr2,...) 拼接多个数组
+
+slice(start,end) 获取数组中的元素,start开始的下标,end结束的下标,不包含end,如果是负数表示倒数,如果end为空截取到最后;返回数组
+
+reverse() 翻转数组元素,元素组发生翻转,返回值也是翻转后的数组
+
+sort() 对数组中元素进行排序,默认是按照Unicode码从小到大排序,返回值是排序后的数组,原数组也进行了排序
+sort(function(a,b){
+	return a - b; //从小到大
+	return b - a; //从大到小
+})
+练习:
+var arr = [1,2,4,3,6,95,12,35,10];
+arr.sort(function(a,b){
+    return a - b;
+});
+console.log(arr);
+
+splice(start,count,value...) 删除数组中的元素,原数组发生改变(删除了元素),返回值是删除的元素数组.
+
+push() 在数组的末尾添加元素,返回数组的长度
+pop() 删除数组末尾的元素,返回删除的元素
+unshift() 在数组的开头添加元素,返回数组长度
+shift() 删除数组开头的元素,返回删除的元素
+```
+
+## 十五.字符串
+
+```
+包装对象: 目的就是让原始类型像对象一样,具有属性和方法
+JS提供了3种包装对象: String Number Boolean
+
+1.将任意数据转为字符串
+new String() 返回对象,和普通字符串使用没有区别
+String() 返回字符串
+
+2.字符串API
+length 获取字符串的长度
+
+charAt() 获取下标对应的字符,也可以使用数组形式 字符串[下标]
+
+charCodeAt() 获取某个字符的Unicode码
+
+indexOf() 查找某个字符的下标,找不到会返回-1
+
+lastIndexOf() 查找某个字符最后一次出现的下标,找不到会返回-1
+
+toUpperCase() 英文字母转大写
+
+toLowerCase() 英文字母转小写
+
+slice(start,end) 截取字符串,start开始的下标,end结束的下标,不包含end本身;如果end为空则截取到最后,如果是负数表示倒数
+
+substr(start,count) 截取字符串,start开始的下标,count截取的长度,count为空表示截取到最后,start为负数表示倒数,返回值是截取的字符,原数组不变
+
+substring(start,end) 截取字符串,start开始的下标,end结束的下标,end为空截取到最后.如果end是负数则变为0.如果start大于end,则start和end的值互换.返回值是截取的字符,原数组不变.
+
+split(sep) 将字符串按照指定的字符分隔为数组,sep表示指定的字符.
+
+3.匹配模式
+作用: 用于查找,替换字符串
+search() 查找满足条件的第一个,并返回下标,如果找不到返回-1  ==> search(/china/i) ==> i表示忽略大小写
+```
+
+```
+练习:
+声明变量保存邮箱的字符串，分别截取出用户名和域名
+var email = "2569564980@qq.com";
+var userName = email.slice(0,email.indexOf('@'));
+var dname = email.slice(email.indexOf('@')+1);
+console.log(userName,dname);
+```
+
+
+
+
+
+
+
+
+
