@@ -958,6 +958,11 @@ split(sep) 将字符串按照指定的字符分隔为数组,sep表示指定的�
 3.匹配模式
 作用: 用于查找,替换字符串
 search() 查找满足条件的第一个,并返回下标,如果找不到返回-1  ==> search(/china/i) ==> i表示忽略大小写
+
+match() 可以查找满足条件的所有的字符串,返回数组  ==> match(/china/ig)
+
+replace() 查找并替换  ==> replace(/china/ig) ==> g表示global全局
+
 ```
 
 ```
@@ -969,9 +974,239 @@ var dname = email.slice(email.indexOf('@')+1);
 console.log(userName,dname);
 ```
 
+## 十六.Math对象
 
+```
+PI 圆周率
+abs() 取绝对值
+round() 四舍五入
+ceil() 向上取整
+floor() 向下取整
+max() 取一组数字中的最大值
+min() 取一组数字中的最小值
+pow(x,y) x的y次方
+random() 取随机数  范围[0,1)
 
+练习:双色球
+   红球：在1~33之间随机取6个，不能重复，从小到大排列
+   蓝球：在1~16之间随机取1个，可以和红球重复，放到红球的末尾
+  将获取的随机放入到一个数组中。
+  
+代码如下:
+var redBall = [];//准备存放红色球的空数组
+var blueBall = [];//准备存放蓝色球的空数组
+var endBall = [];//准备随机获取到的数字空数组
 
+//为两个空数组准备数据
+for (var i = 1; i <= 33; i++) {
+    redBall.push(i);
+    if (i <= 16) {
+        blueBall.push(i);
+    }
+}
+
+//红色球不能重复,声明一个变量来保留不重复的数字的个数
+var count = 0;
+
+while (count < 6) {
+    var rand = parseInt(Math.random() * redBall.length);
+    var j;
+    for (j = 0; j < endBall.length; j++) {
+        if (redBall[rand] === endBall[j]) {
+            break;
+        }
+    }
+    //如果j的值等于endBall数组的长度值, 说明endBall中不存在redBall[rand]这个值
+    if (j === endBall.length) {
+        count++;
+        endBall.push(redBall[rand]);
+    }
+}
+//获取蓝色球中的一个随机值
+var randBlue = parseInt(Math.random() * blueBall.length);
+
+endBall.push(blueBall[randBlue]);
+console.log(endBall);
+```
+
+## 十七.Date对象
+
+```
+date对象: 用于对日期时间的存储和计算
+```
+
+### 1.创建
+
+```
+new Date("2021/05/06 18:05:59");
+new Date(2021,04,06,18,05,59); //月份0~11
+new Date(); //存储的是当前操作系统的时间
+new Date(1620295559000); //存储的是距离计算机元年的毫秒数对应的日期时间
+```
+
+### 2.获取
+
+```
+getFullYear()
+getMonth()
+getDate()
+getHours()
+getMinutes()
+getSeconds()
+getMilliseconds()
+getDay() 获取星期,星期日~星期六
+getTime() 获取当前Date对象距离计算机元年的毫秒数
+练习：假设从数据库中获取到了存储的日期时间1620295559000，打印出以下格式
+   xxxx年xx月xx日  xx:xx:xx  星期x
+var date = new Date(1620295559000);
+var year = date.getFullYear();
+var month = date.getMonth();
+var day = date.getDate();
+var hours = date.getHours();
+var minutes = date.getMinutes();
+var seconds = date.getSeconds();
+var week = date.getDay();
+var weeks = ['日','一','二','三','四','五','六'];
+week = weeks[week];
+console.log(year+"年"+month+"月"+day+"日 "+hours+":"+minutes+":"+seconds+"  "+"星期"+week);
+```
+
+### 3.转为本地字符串
+
+```
+toLocalString() //2021-5-6 18:39:37
+toLocalDateString() //2021-5-6
+toLocaleTimeString() //18:39:37
+```
+
+### 4.设置
+
+```
+setFullYear()
+setMonth()
+setDate()
+setHours()
+setMinutes()
+setSeconds()
+setMilliseconds()
+setTime() 设置距离计算机元年的毫秒数,会产生对应的日期时间
+
+ 练习：创建对象保存一个员工的入职时间2020/5/18，假设合同期为3年，计算出合同到期时间。
+      到期年份在当前的基础之上加3，最后打印出入职时间和到期时间两个对象的本地字符串格式。
+      到期前一个月要续签合同，打印出续签时间。
+      拷贝一个到期时间，然后提前1个月
+var date = new Date(2020,04,18);
+var endDate = new Date(date);
+endDate.setFullYear(endDate.getFullYear()+3);
+var noticeTime = new Date(endDate);
+noticeTime.setMonth(noticeTime.getMonth()-1);
+console.log("入职时间: "+date.toLocaleString());//2020-5-18 00:00:00
+console.log("合同到期时间: "+endDate.toLocaleString());//2023-5-18 00:00:00
+console.log("通知续签时间: "+noticeTime.toLocaleString());//2023-4-18 00:00:00 
+```
+
+## 十八.Number对象
+
+```
+new Number() 将数据转为数值型,返回对象
+Number() 将数据转为数值型,返回数值
+toFixed(n) 保留小数点后n位
+```
+
+## 十九.Boolean对象
+
+```
+new Boolean() 将数据转为布尔型,返回对象
+Boolean() 将数据转为布尔型,返回布尔型
+隐式转换为布尔型,自动调用Boolean函数
+```
+
+## 二十.错误处理
+
+```
+语法错误(SyntaxError): 不符合语法规范,例如中文符号,缺少括号等等
+引用错误(ReferenceError): 变量名称或函数名称写错
+类型错误(TypeError): 对象中的方法名称写错
+范围错误(RangeError): 数据超出了范围
+throw 错误内容  自定义错误,常用于调试阶段
+try{
+	尝试执行,可能产生错误,一旦产生错误会执行catch中的代码
+}catch(err){
+	err 捕获到的错误,会把错误信息放入到err中
+	错误处理方案
+}
+```
+
+## 二十一.ES6简单认识
+
+```
+JS的第六个标准规范
+```
+
+### 1.参数增强
+
+```
+可以给参数设置默认值,通常倒着给参数设置.如果没有提供实参,则会使用默认值;如果有实参则会覆盖默认值
+function add(a,b=0,c=0){
+	...
+}
+//调用
+add(3,5);
+```
+
+### 2.块级作用域
+
+```
+let声明的变量不存在提升,同一个作用域下,不允许反复声明同一个变量
+if,else,while,for等大括号下都是块级作用域
+{
+	let a = 1;//块级作用域下,let声明的变量是局部变量
+}
+练习：计算1~100之间所有整数的和，使用let声明变量
+let sum = 0;
+for(let i = 1;i <= 100;i++){
+    sum += i;
+}
+console.log(sum);
+```
+
+### 3.箭头函数
+
+```
+是匿名函数的另一种写法,不等价与匿名函数
+sort((a,b)=>{
+	return a - b;
+})
+
+如果箭头函数的函数体中只有一行代码并且是return形式,可以简写为sort((a,b)=>a-b)
+练习：使用匿名函数创建函数计算任意两个数字相加的和，将匿名函数改为箭头函数。
+var add = (a, b) => a + b;
+console.log(add(1, 2));
+```
+
+### 4.模板字符串
+
+```
+解决了字符串的拼接,如果妖王字符串利添加JS表达式,使用${}
+`${JS表达式}`
+
+练习:
+let name = "zero";
+let sex = "男";
+let age = 19;
+
+console.log(`
+    姓名: ${name}
+    性别: ${sex}
+    年龄: ${age}
+`);
+/*
+    姓名: zero
+    性别: 男
+    年龄: 19
+
+*/ 
+```
 
 
 
