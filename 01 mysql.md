@@ -13,6 +13,8 @@ mysql.exe -h127.0.0.1 -P3306 -uroot -p
 -P port 端口
 -u user 用户名 root管理员账号
 -p password 密码 root的密码为空
+
+简写形式: mysql -uroot
 ```
 
 ### 常用的管理命令
@@ -23,7 +25,6 @@ show databases; 显示服务器下所有的数据库
 use 数据库名称; 进入指定的数据库
 show tables; 显示当前数据库下所有的表
 desc 表名称; 描述表中都有哪些列
-简写形式: mysql -uroot
 ```
 
 ### SQL语句
@@ -55,7 +56,7 @@ desc pma__recent; #描述pma__recent有哪些列
 1)假设某一条语句出现了错误,则此条语句往后的所有语句都不再执行
 2)一条SQL语句可以跨越多行,以英文的分号作为结尾
 3)SQL语句不区分大小写,习惯上关键字大写,非关键字小写
-4)注释分为单行注释(#)和多行注释(/*...*/),注释的代表不被服务器执行
+4)注释分为单行注释(#)和多行注释(/*...*/),注释代表不被服务器执行
 ```
 
 #### 3.常用的SQL语句
@@ -146,7 +147,7 @@ Unicode 对世界上主流国家常用的语言进行了编码,具体的存储�
 3)mysql的默认存储编号是Latin-1编码,所以会出现中文乱码问题
 4)解决mysql中文乱码问题
 ①脚本文件另存为的编码为UTF8;
-②客户端连接服务器端的编码为UTF8; --> SET NAMES UTF8s;
+②客户端连接服务器端的编码为UTF8; --> SET NAMES UTF8;
 ③服务器端创建数据库使用的编码为UTF8; --> CREATE DATABASE xz CHARSET=UTF8;
 ```
 
@@ -192,13 +193,19 @@ float 单精度浮点型,占四个字节,最大是3.4e38,可能产生误差
 double 双精度浮点型,占八个字节,范围比bigint大的多,可能产生计算误差
 decimal(M,D) 定点小数,几乎不会产生误差,M代表总的有效位数,D代表小数点后的有效位数
 boolean/bool 布尔型,只有两个值(true,false),这两个值不能加引号.使用的时候会自动转为tinyint,true变为了1,false变为了0;也可以直接使用1或者0.
+```
 
-2)日期时间型--必须加引号
+#### 2.日期时间型--必须加引号
+
+```
 date 日期型 2021-05-05
 time 时间型 21:56:59
 datetime 日期时间型 2021-05-05 21:56:59
+```
 
-3)字符串型--必须加引号
+#### 3.字符串型--必须加引号
+
+```
 varchar(M) 变长字符串,操作数据相对慢,M最大值是65535
 char(M) 定长字符串,操作数据相对快,M最大值是255;往往存储长度固定的数据;例如身份证号码,手机号码等.可能产生空间浪费
 text(M) 大型变长字符串,M最大值是2G
@@ -231,6 +238,8 @@ INSERT INTO laptop VALUES(1001,"联想拯救者Y7000",6999.00,100,"2021-05-05 22
 INSERT INTO laptop VALUES(1002,"小米",5999.00,99,"2021-05-05 22:05:59",false);
 INSERT INTO laptop VALUES(1001,"戴尔",5999.00,35,"2021-05-05 22:05:59",1);
 ```
+
+
 
 ```
   练习:
@@ -289,6 +298,8 @@ INSERT INTO laptop VALUES(1003,"戴尔",3999.99,"戴尔笔记本","戴尔笔记�
 3)非空约束 -- not null
 
 4)默认值约束 -- default
+	例如: isOnsale BOOL DEFAULT false,
+
 可以通过default给列设置默认值,具体有两种应用
 insert into laptop values(5,"小米 Air",default,...);
 insert into laptop(lid,title) values(6,"戴尔");
@@ -351,7 +362,7 @@ SELECT DISTINCT sex FROM emp;
 练习: 查询出所有员工的姓名及其年薪
 SELECT ename,salary*12 FROM emp;
 练习：假设每个员工的工资增长500元，年终奖10000，查询所有员工的姓名及其年薪，使用汉字别名
-SELECT ename 性别,(salary+500)*12+10000 年薪 FROM emp;
+SELECT ename 姓名,(salary+500)*12+10000 年薪 FROM emp;
 ```
 
 #### 6.对结果集排序 -- ORDER BY
@@ -429,7 +440,7 @@ SELECT * FROM emp LIMIT 10,5;
 
 ### 复杂查询
 
-#### 1.聚合查询/分组查询(分组查询只适合分组条件列和聚合函数)
+#### 1.聚合查询 / 分组查询 / 分组查询 只适合分组条件列和聚合函数
 
 ```
 练习:查询出所有员工的数量
@@ -446,10 +457,14 @@ SELECT sum(salary) FROM emp WHERE deptId=30;
 SELECT MAX(salary) FROM emp WHERE sex=0;
 练习：查询出年龄最大的员工生日是多少
 SELECT MIN(birthday) FROM emp;
+
+分组练习:(group by)
 练习:查询出男女员工的数量，平均工资，最低工资
 SELECT COUNT(eid),AVG(salary),MIN(salary),sex FROM emp GROUP BY sex;
 练习：查询出每个部门的工资总和，最高工资，最低工资
 SELECT deptId,SUM(salary),MAX(salary),MIN(salary) FROM emp GROUP BY deptId;
+
+year()函数的练习
 练习：查询出1993年出生的员工有哪些
 SELECT * FROM emp WHERE YEAR(birthday)=1993;
 ```
@@ -465,8 +480,6 @@ SELECT * FROM emp WHERE deptId=(SELECT deptId FROM emp WHERE ename="king") AND e
 练习:查询出和tom同一年出生的员工有哪些
 SELECT * FROM emp WHERE YEAR(birthday)=(SELECT YEAR(birthday) FROM emp WHERE ename="tom") AND ename!="tom";
 ```
-
-
 
 #### 3.多表查询
 
