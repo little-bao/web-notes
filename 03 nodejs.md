@@ -54,8 +54,8 @@ var a = 1;
 function fn(){
     console.log("这是fn函数");
 }
-console.log(window.a);
-window.fn();
+console.log(window.a); //1
+window.fn();//这是fn函数
 ```
 
 ### 2.console
@@ -192,9 +192,9 @@ npm -v 查看版本号
 #### 1)切换命令行的路径
 
 ```
-①cd 目录的路径  回车
+第一种方法: cd 目录的路径  回车
 如果有盘符变化,需要添加 盘符名称: 回车
-②在要进入的目录的空白区域,按住shift键,单击鼠标右键,选择"在此处打开powershell窗口"
+第二种方法: 在要进入的目录的空白区域,按住shift键,单击鼠标右键,选择"在此处打开powershell窗口"
 ```
 
 #### 2)常用npm命令
@@ -214,7 +214,7 @@ npm官网: www.npmjs.com
 查询字符串: 浏览器向服务器发请求,传递数据的一种方式,位于URL中
 
 http://www.codeboy.com:9999/products.html?kw=戴尔&price=4999
-(kw=戴尔&price=4999)就是查询字符串
+其中(kw=戴尔&price=4999)就是查询字符串
 
 parse() 将查询字符串解析为对象,为了获取其中的数据
 ```
@@ -989,7 +989,7 @@ login.html
 const bodyParser = require("body-parser");
 //应用body-parser中间件,将post请求的数据解析为对象
 app.use(bodyParser.urlencoded({
-	extended: false;//false表示不适用扩展的qs模块,而是使用核心模块 querystring;true表示使用第三方的qs
+	extended: false;//false表示不使用扩展的qs模块,而是使用核心模块 querystring;true表示使用第三方的qs
 }));
 //3.在路由中获取post传递数据,格式为对象
 req.body
